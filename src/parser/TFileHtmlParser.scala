@@ -16,7 +16,7 @@ object TFileHtmlParser {
   }
 
   def readLoadedMovies: Set[String] = {
-    scala.io.Source.fromFile("d:/loadedMovies.txt")("UTF-8").getLines().toSet
+    scala.io.Source.fromFile("loadedMovies.txt")("UTF-8").getLines().toSet
   }
 
   val encRus = "windows-1251"
@@ -92,14 +92,14 @@ object TFileHtmlParser {
     false
   }
 
-  val movies = FileReader.getMovies("d:/movies2download.txt")
+  val movies = FileReader.getMovies("movies2download.txt")
   var newMovies = ArrayBuffer[String]()
   /**
    * *
    *
    */
   def fileWriter() {
-    val fw = new FileWriter("d:/loadedMovies.txt", true);
+    val fw = new FileWriter("loadedMovies.txt", true);
     newMovies.foreach(m => fw.write(m))
     fw.close()
   }
