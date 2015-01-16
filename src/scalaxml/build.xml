@@ -1,0 +1,57 @@
+<project name="scalaxml" default="jar">
+
+  <property name="scala.home" 
+            value="/opt/java/scala/" />
+  <property name="java.lib" 
+            value="/usr/share/java/" />
+  <property name="scala-library.jar"
+            value="${scala.home}/lib/scala-library.jar" />
+  <property name="scala-compiler.jar" 
+            value="${scala.home}/lib/scala-compiler.jar" />
+  <property name="tagsoup.jar" 
+            value="${java.lib}/tagsoup-1.2.jar" />
+  <property name="xerces.jar" 
+            value="${java.lib}/xercesImpl.jar" />
+  <property name="xalan.jar" 
+            value="${java.lib}/xalan2.jar" />
+  <property name="nekohtml.jar" 
+            value="${java.lib}/nekohtml.jar" />
+  <property name="htmlcleaner.jar" 
+            value="${java.lib}/htmlcleaner2_1.jar" />
+  
+  <target name="init">
+    <mkdir dir="./build/lib"/>
+    <mkdir dir="./build/classes"/>
+    <taskdef name="scalac" classname="scala.tools.ant.Scalac"
+      classpath="${scala-library.jar}:${scala-compiler.jar}"/>
+  </target>
+
+  <target name="build" depends="init">
+    <scalac srcdir="src" destdir="./build/classes"
+            classpath="${scala-library.jar}:${tagsoup.jar}:${nekohtml.jar}:${xerces.jar}:${xalan.jar}:${htmlcleaner.jar}"
+            deprecation="yes">
+      <include name="**/*.scala"/>
+    </scalac>
+  </target>
+
+  <target name="build-test" depends="build">
+    <scalac srcdir="src" destdir="./build/tests"
+            classpath="${scala-library.jar}:${tagsoup.jar}:${nekohtml.jar}:${xerces.jar}:${xalan.jar}:./build/classes"
+            deprecation="yes">
+      <include name="**/*.scala"/>
+    </scalac>
+  </target>
+
+  <target name="jar" depends="build">
+    <jar destfile="./build/scalaxml.jar"
+         basedir="./build/classes"
+         excludes="**/tests/*.class"
+         />
+  </target>
+
+  <!-- clean:    remove everything that was built,copied -->  
+  <target name="clean">
+    <delete dir="build"/>
+  </target>
+  
+</project>
